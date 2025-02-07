@@ -1,0 +1,3 @@
+package getListIp
+
+func New() {}
