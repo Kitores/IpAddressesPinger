@@ -1,25 +1,41 @@
 package main
 
 import (
+	"IpAddressPinger/backend/internal/config"
 	"IpAddressPinger/backend/internal/database/postgresSql"
+	"IpAddressPinger/backend/internal/http-server/handlers/getListIp"
+	"IpAddressPinger/backend/internal/setupLogger"
+	"IpAddressPinger/backend/lib/logger/sl"
 	"fmt"
 	"github.com/labstack/echo/v4"
-	"log"
+	"github.com/labstack/echo/v4/middleware"
 	"net/http"
 )
 
 func main() {
 
-	conn := ""
-	storage, err := postgresSql.NewPg(conn)
-	if err != nil {
-		log.Fatal(err)
+	cfg := config.MustLoad()
+
+	log := setupLogger.SetupLogger(cfg.Env)
+
+	connStr := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=%s", cfg.Host, cfg.Port, cfg.UserDb, cfg.Password, cfg.Dbname, cfg.SSLmode)
+	storage, err := postgresSql.NewPg(connStr)
+	if err != nil || storage == nil {
+		log.Error("Failed to initialize storage: %v", sl.Err(err))
 	}
-	fmt.Println(storage)
 
 	e := echo.New()
-	e.GET("/", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello, World!")
+
+	// CORS
+	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowOrigins: []string{"*"}, // Разрешаем запросы с любых источников
+		AllowMethods: []string{echo.GET, echo.HEAD, echo.PUT, echo.PATCH, echo.POST, echo.DELETE},
+	}))
+
+	e.GET("/ping", func(c echo.Context) error {
+		return c.JSON(http.StatusOK, map[string]string{"message": "pong"})
 	})
-	e.Logger.Fatal(e.Start(":1323"))
+	e.GET("/pingDb", getListIp.New(log, storage))
+
+	e.Start(cfg.Address)
 }

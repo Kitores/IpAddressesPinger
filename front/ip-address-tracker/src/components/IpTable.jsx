@@ -8,7 +8,7 @@ function IpTable() {
     useEffect(() => {
         async function fetchData() {
             try {
-                const response = await axios.get('http://your-api-endpoint.com/ips');
+                const response = await axios.get('http://localhost:8080/ping');
                 setData(response.data);
             } catch (error) {
                 console.error('Ошибка при получении данных:', error);
