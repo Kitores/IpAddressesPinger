@@ -1,12 +1,12 @@
 package main
 
 import (
-	"IpAddressPinger/backend/internal/config"
-	"IpAddressPinger/backend/internal/database/postgresSql"
-	"IpAddressPinger/backend/internal/http-server/handlers/getListIp"
-	"IpAddressPinger/backend/internal/http-server/handlers/postPingInfo"
-	"IpAddressPinger/backend/internal/setupLogger"
-	"IpAddressPinger/backend/lib/logger/sl"
+	"backend/internal/config"
+	"backend/internal/database/postgresSql"
+	"backend/internal/http-server/handlers/getListIp"
+	"backend/internal/http-server/handlers/postPingInfo"
+	"backend/internal/setupLogger"
+	"backend/lib/logger/sl"
 	"fmt"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"

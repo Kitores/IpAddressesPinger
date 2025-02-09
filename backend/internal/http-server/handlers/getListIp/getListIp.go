@@ -1,7 +1,7 @@
 package getListIp
 
 import (
-	"IpAddressPinger/backend/internal/database/postgresSql"
+	"backend/internal/database/postgresSql"
 	"github.com/labstack/echo/v4"
 	"log/slog"
 	"net/http"

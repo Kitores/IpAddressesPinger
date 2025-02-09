@@ -128,7 +128,7 @@ func SendRequest(url string, stats []PingInfo) (*Resp, error) {
 
 func main() {
 	url := "http://backend:8080/pingInfo"
-	ticker := time.NewTicker(5 * time.Second)
+	ticker := time.NewTicker(2 * time.Minute)
 	for range ticker.C {
 
 		ips, err := getContainerIPs()

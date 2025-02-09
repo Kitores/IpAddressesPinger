@@ -32,7 +32,7 @@ type Config struct {
 }
 
 func MustLoad() *Config {
-	err := godotenv.Load("backend/config/config.env")
+	err := godotenv.Load("config/config.env")
 	if err != nil {
 		log.Fatalf("Error loading .env file: %v", err)
 	}

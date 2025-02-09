@@ -1,7 +1,7 @@
 package postgresSql
 
 import (
-	"IpAddressPinger/backend/internal/http-server/handlers/postPingInfo"
+	"backend/internal/http-server/handlers/postPingInfo"
 	"database/sql"
 	"fmt"
 	"log"
