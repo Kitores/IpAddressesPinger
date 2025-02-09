@@ -1,2 +1,2 @@
-FROM postgres:14
+FROM postgres:latest
 COPY ./init.sql /docker-entrypoint-initdb.d/

@@ -1,22 +1,56 @@
-/* styles.css */
-.container {
+/*!* styles.css *!*/
+/*.container {*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    height: 100vh;*/
+/*}*/
+
+/*.styled-button {*/
+/*    padding: 10px 20px;*/
+/*    background-color: #007bff;*/
+/*    color: white;*/
+/*    border: none;*/
+/*    cursor: pointer;*/
+/*    font-size: 16px;*/
+/*    border-radius: 5px;*/
+/*    transition: background-color 0.3s ease;*/
+/*}*/
+
+/*.styled-button:hover {*/
+/*    background-color: #0056b3;*/
+/*}*/
+body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: 100vh; /* Занимает всю высоту окна */
+    margin: 0;
+    font-family: Arial, sans-serif;
 }
 
-.styled-button {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
+.table-container {
+    overflow-x: auto; /* Позволяет прокручивать таблицу по горизонтали, если она слишком широка */
 }
 
-.styled-button:hover {
-    background-color: #0056b3;
+table {
+    border-collapse: collapse; /* Убирает двойные границы */
+    width: auto; /* Позволяет таблице растягиваться */
+    max-width: 100%; /* Максимальная ширина таблицы */
+    margin: 20px 0;
+    table-layout: auto; /* Автоматическое распределение ширины */
+}
+
+th, td {
+    border: 1px solid #dddddd; /* Цвет границы ячеек */
+    text-align: left; /* Выравнивание текста в ячейках */
+    padding: 8px; /* Отступ внутри ячеек */
+}
+
+th {
+    background-color: #f2f2f2; /* Фоновый цвет заголовков */
+}
+
+tr:hover {
+    background-color: #f5f5f5; /* Цвет строки при наведении */
 }

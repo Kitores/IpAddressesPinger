@@ -4,6 +4,7 @@ import (
 	"IpAddressPinger/backend/internal/config"
 	"IpAddressPinger/backend/internal/database/postgresSql"
 	"IpAddressPinger/backend/internal/http-server/handlers/getListIp"
+	"IpAddressPinger/backend/internal/http-server/handlers/postPingInfo"
 	"IpAddressPinger/backend/internal/setupLogger"
 	"IpAddressPinger/backend/lib/logger/sl"
 	"fmt"
@@ -35,7 +36,7 @@ func main() {
 	e.GET("/ping", func(c echo.Context) error {
 		return c.JSON(http.StatusOK, map[string]string{"message": "pong"})
 	})
-	e.GET("/pingDb", getListIp.New(log, storage))
-
+	e.GET("/getListIp", getListIp.New(log, storage))
+	e.POST("/pingInfo", postPingInfo.New(log, storage))
 	e.Start(cfg.Address)
 }
