@@ -7,7 +7,7 @@ const PingTable = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch('http://backend:8080/getListIp');
+                const response = await fetch('/api/getListIp');
                 console.log('Response status:', response.status);
                 if (!response.ok) {
                     throw new Error('Network response was not ok: ${response.statusText}');

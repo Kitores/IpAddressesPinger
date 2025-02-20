@@ -66,7 +66,7 @@ func pingSingleContainer(ip string) (PingInfo, error) {
 	stats := pinger.Statistics()
 	pingInfo := PingInfo{
 		IPAddr:     stats.IPAddr.String(),
-		PingTime:   pingTime.String(),
+		PingTime:   pingTime,
 		PacketLoss: stats.PacketLoss,
 	}
 	fmt.Printf("Ping %s: Packet loss: %.2f%%, Avg: %v\n", ip, stats.PacketLoss, stats.AvgRtt)
@@ -74,9 +74,9 @@ func pingSingleContainer(ip string) (PingInfo, error) {
 }
 
 type PingInfo struct {
-	IPAddr     string  `json:"ipAddr"`
-	PingTime   string  `json:"pingTime"`
-	PacketLoss float64 `json:"packetLoss"`
+	IPAddr     string    `json:"ipAddr"`
+	PingTime   time.Time `json:"pingTime"`
+	PacketLoss float64   `json:"packetLoss"`
 }
 
 type Req struct {
@@ -127,7 +127,7 @@ func SendRequest(url string, stats []PingInfo) (*Resp, error) {
 }
 
 func main() {
-	url := "http://backend:8080/pingInfo"
+	url := "http://backend:8081/pingInfo"
 	ticker := time.NewTicker(2 * time.Minute)
 	for range ticker.C {
 

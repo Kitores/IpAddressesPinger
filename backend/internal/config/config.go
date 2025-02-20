@@ -1,8 +1,8 @@
 package config
 
 import (
+	"fmt"
 	"github.com/ilyakaznacheev/cleanenv"
-	"github.com/joho/godotenv"
 	"log"
 	"os"
 	"time"
@@ -27,28 +27,31 @@ type Storage struct {
 
 type Config struct {
 	Env        string `yaml:"env" env-default:"local"`
-	HTTPServer `yaml:"httpServer"`
+	HTTPServer `yaml:"http_server"`
 	Storage    `yaml:"storage"`
 }
 
 func MustLoad() *Config {
-	err := godotenv.Load("config/config.env")
-	if err != nil {
-		log.Fatalf("Error loading .env file: %v", err)
-	}
+	//err := godotenv.Load("config/config.env")
+	//if err != nil {
+	//	log.Fatalf("Error loading config.env file: %v", err)
+	//}
 	configPath := os.Getenv("CONFIG_PATH")
 	if configPath == "" {
-		log.Fatal("CONFIG_PATH environment variable not set")
+		//log.Fatal("CONFIG_PATH environment variable not set")
+		log.Printf("CONFIG_PATH environment variable not set")
 	}
 	if _, err := os.Stat(configPath); os.IsNotExist(err) {
-		log.Fatal("file does not exist: %s", configPath)
+		//log.Fatal("file does not exist: %s", configPath)
+		log.Printf("file does not exist: %s", configPath)
 	}
 
 	var cfg Config
-	if err = cleanenv.ReadConfig(configPath, &cfg); err != nil {
-		log.Fatalf("Error reading config file: %s", err)
+	if err := cleanenv.ReadConfig(configPath, &cfg); err != nil {
+		//log.Fatalf("Error reading config file: %s", err)
+		log.Printf("Error reading config file: %s", err)
 	}
-
+	fmt.Println(cfg)
 	cfg.UserDb = os.Getenv("POSTGRES_USER")
 	cfg.Password = os.Getenv("POSTGRES_PASSWORD")
 	cfg.Dbname = os.Getenv("POSTGRES_DB")
