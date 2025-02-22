@@ -28,7 +28,7 @@ services:
     hostname: db
     build: ./database
     volumes:
-      - ./db:/docker-entrypoint-initdb.d
+      - pgdata:/var/lib/postgresql/data
     env_file:
       - .env
     environment:
@@ -49,6 +49,8 @@ services:
     networks:
       ip_address_pinger:
         ipv4_address: 172.16.0.6
+volumes:
+  pgdata:
 networks:
   ip_address_pinger:
     driver: bridge

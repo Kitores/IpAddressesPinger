@@ -10,10 +10,24 @@ import (
 	"github.com/go-ping/ping"
 	"io"
 	"log"
-	//"net"
 	"net/http"
 	"time"
 )
+
+type PingInfo struct {
+	IPAddr     string  `json:"ipAddr"`
+	PingTime   string  `json:"pingTime"`
+	PacketLoss float64 `json:"packetLoss"`
+}
+
+type Req struct {
+	Stats []PingInfo `json:"stats"`
+}
+
+type Resp struct {
+	Status string `json:"status"`
+	Error  string `json:"error,omitempty"`
+}
 
 func getContainerIPs() ([]string, error) {
 	ctx := context.Background()
@@ -60,7 +74,8 @@ func pingSingleContainer(ip string) (PingInfo, error) {
 	pinger.Count = 1
 	pinger.Timeout = 2 * time.Second
 
-	pingTime := time.Now()
+	pingTime := time.Now().UTC().Format(time.RFC3339)
+
 	pinger.Run()
 
 	stats := pinger.Statistics()
@@ -70,22 +85,8 @@ func pingSingleContainer(ip string) (PingInfo, error) {
 		PacketLoss: stats.PacketLoss,
 	}
 	fmt.Printf("Ping %s: Packet loss: %.2f%%, Avg: %v\n", ip, stats.PacketLoss, stats.AvgRtt)
+	fmt.Println(pingInfo)
 	return pingInfo, nil
-}
-
-type PingInfo struct {
-	IPAddr     string    `json:"ipAddr"`
-	PingTime   time.Time `json:"pingTime"`
-	PacketLoss float64   `json:"packetLoss"`
-}
-
-type Req struct {
-	Stats []PingInfo `json:"stats"`
-}
-
-type Resp struct {
-	Status string `json:"status"`
-	Error  string `json:"error,omitempty"`
 }
 
 func SendRequest(url string, stats []PingInfo) (*Resp, error) {

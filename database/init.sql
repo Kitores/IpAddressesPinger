@@ -1,5 +1,5 @@
-CREATE TABLE ip_addresses (
-    ip_address CHARACTER VARYING(10),
-    ping_time TIME,
-    status CHARACTER VARYING(10)
-)
+CREATE TABLE IF NOT EXISTS ip_addresses (
+    ip_address VARCHAR(10),
+    ping_time TIMESTAMP,
+    status VARCHAR(10)
+);

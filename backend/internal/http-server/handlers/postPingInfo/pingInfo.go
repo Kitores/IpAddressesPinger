@@ -2,7 +2,6 @@ package postPingInfo
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/labstack/echo/v4"
 	"log/slog"
 	"net/http"
@@ -39,9 +38,9 @@ func New(log *slog.Logger, saver PingInfoSaver) echo.HandlerFunc {
 
 		log.Info("Request body decoded", slog.Any("request", req))
 
-		dateValue := req[0].PingTime.Format("2006-01-02 15:04:05")
-		pl := req[0].PacketLoss
-		fmt.Println("\n", dateValue, pl)
+		//dateValue := req[0].PingTime.Format("2006-01-02 15:04:05")
+		//pl := req[0].PacketLoss
+		//fmt.Println("\n", dateValue, pl)
 
 		err = saver.SaveNewInfo(req)
 		if err != nil {

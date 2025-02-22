@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import './styles.css';
 
 const PingTable = () => {
     const [data, setData] = useState([]);
@@ -7,10 +7,10 @@ const PingTable = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch('/api/getListIp');
+                const response = await fetch('/getListIp');
                 console.log('Response status:', response.status);
                 if (!response.ok) {
-                    throw new Error('Network response was not ok: ${response.statusText}');
+                    throw new Error(`Network response was not ok: ${response.statusText}`);
                 }
                 const jsonData = await response.json();
                 setData(jsonData);
@@ -26,26 +26,26 @@ const PingTable = () => {
     }, []);
 
     return (
-        <table>
-            <thead>
-            <tr>
-                <th>IP Address</th>
-                <th>Ping Time</th>
-                {/*<th>Last Success Date</th>*/}
-                <th>Status</th>
-            </tr>
-            </thead>
-            <tbody>
-            {Array.isArray(data) && data.map((ping, index) => (
-                <tr key={index}>
-                    <td>{ping.ip}</td>
-                    <td>{new Date(ping.pingTime).toLocaleString()}</td>
-                    <td>{ping.success}</td>
-                    {/*<td>{new Date(ping.lastSuccessDate).toLocaleString()}</td>*/}
+        <div className="table-container">
+            <table>
+                <thead>
+                <tr>
+                    <th>IP Address</th>
+                    <th>Ping Time</th>
+                    <th>Status</th>
                 </tr>
-            ))}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                {Array.isArray(data) && data.map((ping, index) => (
+                    <tr key={index}>
+                        <td>{ping.IpAddress}</td>
+                        <td>{new Date(ping.PingTime).toLocaleString()}</td>
+                        <td>{ping.Status}</td>
+                    </tr>
+                ))}
+                </tbody>
+            </table>
+        </div>
     );
 };
 

@@ -25,6 +25,7 @@ func New(log *slog.Logger, getter ListIpGetter) echo.HandlerFunc {
 
 		listIp, err := getter.GetListIp()
 		if err != nil {
+			log.Error("Error getting list ip: %v", err)
 			return c.JSON(http.StatusInternalServerError, err)
 		}
 

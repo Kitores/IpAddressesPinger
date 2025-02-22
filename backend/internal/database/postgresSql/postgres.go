@@ -4,6 +4,7 @@ import (
 	"backend/internal/http-server/handlers/postPingInfo"
 	"database/sql"
 	"fmt"
+	_ "github.com/lib/pq"
 	"log"
 	"sync"
 	"time"
@@ -25,17 +26,20 @@ type Data struct {
 }
 
 func NewPg(conn string) (*Postgres, error) {
-	pgOnce.Do(func() {
-		db, err := sql.Open("postgres", conn)
-		if err != nil {
-			fmt.Errorf("unable to create conection pool: %w", err)
-		}
-		pgInstance = &Postgres{db: db}
-	})
-	if pgInstance == nil {
-		return nil, fmt.Errorf("failed to initialize Postgres instance")
+	db, err := sql.Open("postgres", conn)
+	if err != nil {
+		return nil, err
 	}
-	return pgInstance, nil
+
+	err = db.Ping()
+	if err != nil {
+		return nil, err
+	}
+
+	log.Println("Access connected to", conn)
+	postgres := &Postgres{db: db}
+	return postgres, nil
+
 }
 
 func (pg *Postgres) GetListIp() ([]Data, error) {

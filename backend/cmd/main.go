@@ -24,6 +24,7 @@ func main() {
 	if err != nil || storage == nil {
 		log.Error("Failed to initialize storage: %v", sl.Err(err))
 	}
+	log.Info("Initialized storage:", storage)
 
 	e := echo.New()
 
